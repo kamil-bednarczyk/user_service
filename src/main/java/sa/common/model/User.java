@@ -1,8 +1,8 @@
-package sa.common.user_service.model;
+package sa.common.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import sa.common.user_service.model.enums.Role;
+import sa.common.model.enums.Role;
 
 @Data
 @Builder
