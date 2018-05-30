@@ -1,4 +1,4 @@
-package sa.common.user_service;
+package sa.common;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,5 +12,4 @@ public class UserServiceApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }

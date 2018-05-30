@@ -1,5 +1,6 @@
 package sa.common.web;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,9 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    @Value("${spring.kafka.topic.userCreated}")
-    private static String USER_CREATED_TOPIC;
+    @Value("${kafka.topic.userCreated}")
+    private String USER_CREATED_TOPIC;
+    private Gson gson = new Gson();
 
     private UserRepository userRepository;
     private KafkaSender kafkaSender;
@@ -46,6 +48,6 @@ public class UserController {
                 .flatMap(UserService::convertToUser)
                 .flatMap(user -> userRepository.save(user))
                 .flatMap(UserService::convertToDto)
-                .doOnNext(user -> kafkaSender.send(USER_CREATED_TOPIC, user));
+                .doOnNext(userDto -> kafkaSender.send(USER_CREATED_TOPIC, gson.toJson(userDto)));
     }
 }

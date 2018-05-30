@@ -1,6 +1,10 @@
 spring:
   application:
     name: user-service
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      group-id: userCreated
 server:
   port: 8092
 eureka:
@@ -9,10 +13,10 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
-  kafka:
-      bootstrap-servers: localhost:9092
-      topic:
-        userCreated: USER_CREATED_TOPIC
-  security:
-    basic:
-      enabled: false
+kafka:
+    bootstrap-servers: localhost:9092
+    topic:
+      userCreated: USER_CREATED_TOPIC
+security:
+  basic:
+    enabled: false

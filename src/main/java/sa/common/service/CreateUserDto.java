@@ -1,10 +1,10 @@
 package sa.common.service;
 
-import lombok.Value;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 
-@Value
+@Data
 public class CreateUserDto {
 
     @NotEmpty
