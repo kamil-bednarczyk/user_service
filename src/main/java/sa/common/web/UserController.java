@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import sa.common.kafka.KafkaSender;
+import sa.common.model.dto.CreateUserDto;
+import sa.common.model.dto.UserDto;
 import sa.common.repository.UserRepository;
-import sa.common.service.CreateUserDto;
-import sa.common.service.UserDto;
 import sa.common.service.UserService;
 
 import javax.validation.Valid;
+
+import static sa.common.service.UserService.update;
 
 @RestController
 @RequestMapping("/users")
@@ -20,6 +22,10 @@ public class UserController {
 
     @Value("${kafka.topic.userCreated}")
     private String USER_CREATED_TOPIC;
+
+    @Value("${kafka.topic.userUpdated}")
+    private String USER_UPDATED_TOPIC;
+
     private Gson gson = new Gson();
 
     private UserRepository userRepository;
@@ -49,5 +55,15 @@ public class UserController {
                 .flatMap(user -> userRepository.save(user))
                 .flatMap(UserService::convertToDto)
                 .doOnNext(userDto -> kafkaSender.send(USER_CREATED_TOPIC, gson.toJson(userDto)));
+    }
+
+    @PutMapping
+    public Mono<UserDto> updateUser(@RequestBody @Valid UserDto userDto) {
+        return Mono.just(userDto)
+                .flatMap(dto -> userRepository.findById(dto.getId()))
+                .flatMap(user -> update(user, userDto))
+                .flatMap(userRepository::save)
+                .flatMap(UserService::convertToDto)
+                .doOnNext(userDto1 -> kafkaSender.send(USER_UPDATED_TOPIC,gson.toJson(userDto1)));
     }
 }

@@ -1,4 +1,4 @@
-package sa.common.model;
+package sa.common.model.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

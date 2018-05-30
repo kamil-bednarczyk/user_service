@@ -1,4 +1,4 @@
-package sa.common.service;
+package sa.common.model.dto;
 
 import lombok.Data;
 

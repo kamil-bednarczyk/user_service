@@ -4,7 +4,7 @@ spring:
   kafka:
     consumer:
       auto-offset-reset: earliest
-      group-id: userCreated
+      group-id: 1123122
 server:
   port: 8092
 eureka:
@@ -17,6 +17,7 @@ kafka:
     bootstrap-servers: localhost:9092
     topic:
       userCreated: USER_CREATED_TOPIC
+      userUpdated: USER_UPDATED_TOPIC
 security:
   basic:
     enabled: false

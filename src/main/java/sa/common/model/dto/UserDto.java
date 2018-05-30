@@ -1,11 +1,11 @@
-package sa.common.service;
+package sa.common.model.dto;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 
-@Value
+@Data
 @Builder
 public class UserDto {
     private String id;
