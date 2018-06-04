@@ -20,4 +20,9 @@ public class KafkaSender {
         log.info("Sending: " + payload + " to topic:" + topic);
         kafkaTemplate.send(topic, payload);
     }
+
+    public void send(String topic, String key, String payload) {
+        log.info("Sending: " + payload + "with key: " + key + " to topic:" + topic);
+        kafkaTemplate.send(topic, key, payload);
+    }
 }

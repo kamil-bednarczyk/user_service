@@ -26,6 +26,9 @@ public class UserController {
     @Value("${kafka.topic.userUpdated}")
     private String USER_UPDATED_TOPIC;
 
+    @Value("${spring.kafka.key.userUpdated}")
+    private String USER_UPDATED_TOPIC_KEY;
+
     private Gson gson = new Gson();
 
     private UserRepository userRepository;
@@ -64,6 +67,6 @@ public class UserController {
                 .flatMap(user -> update(user, userDto))
                 .flatMap(userRepository::save)
                 .flatMap(UserService::convertToDto)
-                .doOnNext(userDto1 -> kafkaSender.send(USER_UPDATED_TOPIC,gson.toJson(userDto1)));
+                .doOnNext(data -> kafkaSender.send(USER_UPDATED_TOPIC, USER_UPDATED_TOPIC_KEY, gson.toJson(data)));
     }
 }
