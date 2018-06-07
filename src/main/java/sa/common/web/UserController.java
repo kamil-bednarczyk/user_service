@@ -19,20 +19,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static sa.common.web.service.UserService.update;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    @Value("${kafka.topic.userCreated}")
-    private String USER_CREATED_TOPIC;
-
-    @Value("${kafka.topic.userUpdated}")
-    private String USER_UPDATED_TOPIC;
-
-    @Value("${spring.kafka.key.userUpdated}")
-    private String USER_UPDATED_TOPIC_KEY;
 
     private Gson gson;
     private UserRepository userRepository;
