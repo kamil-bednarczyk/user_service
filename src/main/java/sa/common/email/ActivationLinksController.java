@@ -21,11 +21,13 @@ public class ActivationLinksController {
     @GetMapping("/{id}")
     public void activate(@PathVariable("id") String id) {
         activationLinkRepository.findById(id).ifPresent(link ->
-                userRepository.findById(link.getUserId()).ifPresent(user -> {
-                            user.setEnabled(true);
-                            userRepository.save(user);
-                        }
-                )
-        );
+        {
+            userRepository.findById(link.getUserId()).ifPresent(user -> {
+                user.setEnabled(true);
+                userRepository.save(user);
+            });
+            link.setStatus(ActivationStatus.ACTIVATED);
+            activationLinkRepository.save(link);
+        });
     }
 }

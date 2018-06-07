@@ -25,16 +25,16 @@ public class EmailService {
 
     @EventHandler
     public void on(UserCreatedEvent event) {
-        ActivationLink activationLink = ActivationLink.builder()
+        LocalDate expirationDate = LocalDate.now().plus(Duration.ofHours(DEFAULT_ACTIVATION_LINK_DURATION_HOURS));
+
+        activationLinkRepository.save(ActivationLink.builder()
                 .id(UUID.randomUUID().toString())
                 .userId(event.getId())
                 .status(ActivationStatus.NOT_ACTIVATED)
-                .expirationDate(LocalDate.now().plus(Duration.ofHours(DEFAULT_ACTIVATION_LINK_DURATION_HOURS)))
-                .build();
+                .expirationDate(expirationDate)
+                .build());
 
-        activationLinkRepository.save(activationLink);
-
-        sendSimpleMessage(event.getEmail(), "Squad Agenda: activation link", "");
+        sendSimpleMessage(event.getEmail(), "Squad Agenda: activation link", "TODO");
     }
 
     private void sendSimpleMessage(String to, String subject, String text) {
