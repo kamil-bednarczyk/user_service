@@ -3,7 +3,6 @@ package sa.common.web;
 import com.google.gson.Gson;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import sa.common.core.CreateUserCommand;
 import sa.common.core.UpdateUserCommand;
@@ -54,7 +53,7 @@ public class UserController {
                 .password(createUserDto.getPassword())
                 .email(createUserDto.getEmail())
                 .role(Role.valueOf(createUserDto.getRole()))
-                .enabled(true)
+                .enabled(false) // changed to true after acc activation via email link
                 .build());
     }
 
