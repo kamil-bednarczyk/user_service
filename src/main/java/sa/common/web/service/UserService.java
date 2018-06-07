@@ -1,26 +1,26 @@
-package sa.common.service;
+package sa.common.web.service;
 
-import reactor.core.publisher.Mono;
-import sa.common.model.entity.User;
-import sa.common.model.enums.Role;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
+import sa.common.model.entity.User;
+import sa.common.model.enums.Role;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserService {
-    public static Mono<UserDto> convertToDto(User user) {
-        return Mono.just(UserDto.builder()
+    public static UserDto convertToDto(User user) {
+        return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .role(user.getRole().toString())
-                .build());
+                .build();
     }
 
-    public static Mono<User> convertToUser(@Valid CreateUserDto createUserDto) {
-        return Mono.just(User.builder()
+    public static Optional<User> convertToUser(@Valid CreateUserDto createUserDto) {
+        return Optional.of(User.builder()
                 .id(UUID.randomUUID().toString())
                 .username(createUserDto.getUsername())
                 .email(createUserDto.getEmail())
@@ -28,12 +28,5 @@ public class UserService {
                 .enabled(true)
                 .role(Role.valueOf(createUserDto.getRole()))
                 .build());
-    }
-
-    public static Mono<User> update(User user, UserDto userDto) {
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setRole(Role.valueOf(userDto.getRole()));
-        return Mono.just(user);
     }
 }
