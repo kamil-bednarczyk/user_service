@@ -1,4 +1,4 @@
-package sa.common.core;
+package sa.common.core.user;
 
 import lombok.extern.log4j.Log4j2;
 import org.axonframework.eventhandling.EventHandler;

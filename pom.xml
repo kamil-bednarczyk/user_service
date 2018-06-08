@@ -47,6 +47,12 @@
             <artifactId>axon-core</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.axonframework</groupId>
+            <artifactId>axon-test</artifactId>
+            <version>3.2.2</version>
+            <scope>test</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.axonframework/axon-amqp -->
         <dependency>
             <groupId>org.axonframework</groupId>

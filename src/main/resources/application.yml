@@ -1,17 +1,17 @@
 spring:
   application:
     name: user-service
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: <username>
-    password: <password>
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: smtp.gmail.com
+#   port: 587
+#    username:
+#    password:
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 server:
   port: 8092
 eureka:
@@ -23,3 +23,7 @@ eureka:
 security:
   basic:
     enabled: false
+
+mail:
+  username:
+  password:

@@ -1,4 +1,4 @@
-package sa.common.core;
+package sa.common.core.user;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
@@ -60,6 +60,7 @@ public class UserAggragate {
 
     @EventHandler
     public void on(UserUpdatedEvent event) {
+        this.id = event.getId();
         this.username = event.getUsername();
         this.email = event.getEmail();
         this.role = Role.valueOf(event.getRole());
