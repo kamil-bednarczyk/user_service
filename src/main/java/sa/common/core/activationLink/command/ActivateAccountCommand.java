@@ -7,5 +7,5 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 public class ActivateAccountCommand {
 
     @TargetAggregateIdentifier
-    private final String id;
+    private final String linkId;
 }

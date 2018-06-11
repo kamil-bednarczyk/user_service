@@ -39,7 +39,7 @@ public class UserAggregateTest {
 
     @Test
     public void testUpdateUser() {
-        fixture.given(CreateUserCommand.builder()
+        fixture.given(UserCreatedEvent.builder()
                 .id("id")
                 .username("username")
                 .password("password")
@@ -61,7 +61,5 @@ public class UserAggregateTest {
                         .enable(false)
                         .role(Role.ADMIN.toString())
                         .build());
-
     }
-
 }

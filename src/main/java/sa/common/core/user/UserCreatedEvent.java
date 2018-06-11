@@ -1,13 +1,11 @@
 package sa.common.core.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import sa.common.model.enums.Role;
 
 @Value
 @Builder
-@AllArgsConstructor
 public class UserCreatedEvent {
 
     private final String id;

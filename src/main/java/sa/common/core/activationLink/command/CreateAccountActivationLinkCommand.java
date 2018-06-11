@@ -9,5 +9,4 @@ public class CreateAccountActivationLinkCommand {
     @TargetAggregateIdentifier
     private final String linkId;
     private final String userId;
-
 }

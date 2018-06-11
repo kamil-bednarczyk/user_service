@@ -46,7 +46,7 @@ public class AccountActivationHandler {
 
     @EventHandler
     public void on(AccountActivatedEvent event) {
-        activationLinkRepository.findById(event.getId()).ifPresent(link ->
+        activationLinkRepository.findById(event.getLinkId()).ifPresent(link ->
         {
             userRepository.findById(link.getUserId()).ifPresent(user -> {
                 user.setEnabled(true);

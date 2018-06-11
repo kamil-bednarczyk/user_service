@@ -5,7 +5,7 @@ import lombok.Value;
 @Value
 public class AccountActivationLinkCreatedEvent {
 
-    private final String userId;
     private final String linkId;
+    private final String userId;
 
 }

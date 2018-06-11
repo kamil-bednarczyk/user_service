@@ -5,7 +5,6 @@ import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
-import org.springframework.data.annotation.Id;
 import sa.common.core.activationLink.command.ActivateAccountCommand;
 import sa.common.core.activationLink.command.CreateAccountActivationLinkCommand;
 import sa.common.core.activationLink.command.SendAccountActivationEmailCommand;
@@ -18,11 +17,9 @@ import java.time.LocalDate;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
-
 @Aggregate
 public class AccountActivationLinkAggregate {
 
-    @Id
     @AggregateIdentifier
     private String linkId;
 
@@ -30,19 +27,23 @@ public class AccountActivationLinkAggregate {
     private LocalDate expirationDate;
     private ActivationStatus status;
 
-    @CommandHandler
-    public AccountActivationLinkAggregate(CreateAccountActivationLinkCommand cmd) {
-        apply(new AccountActivationLinkCreatedEvent(cmd.getLinkId(), cmd.getUserId()));
+    @SuppressWarnings("unused")
+    protected AccountActivationLinkAggregate() {
     }
 
     @CommandHandler
-    public void handle(ActivateAccountCommand cmd) {
-        apply(new AccountActivatedEvent(cmd.getId(), this.userId));
+    public AccountActivationLinkAggregate(CreateAccountActivationLinkCommand cmd) {
+        apply(new AccountActivationLinkCreatedEvent(cmd.getLinkId(),cmd.getUserId()));
     }
 
     @CommandHandler
     public void handle(SendAccountActivationEmailCommand cmd) {
         apply(new AccountActivationEmailSentEvent(cmd.getLinkId(), cmd.getUserId(), cmd.getEmail()));
+    }
+
+    @CommandHandler
+    public void handle(ActivateAccountCommand cmd) {
+        apply(new AccountActivatedEvent(cmd.getLinkId(), this.userId));
     }
 
     @EventSourcingHandler
@@ -53,7 +54,7 @@ public class AccountActivationLinkAggregate {
 
     @EventHandler
     public void on(AccountActivatedEvent event) {
-        this.linkId = event.getId();
+        this.linkId = event.getLinkId();
         this.status = ActivationStatus.ACTIVATED;
     }
 }
