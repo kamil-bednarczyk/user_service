@@ -6,11 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 import sa.common.core.activationLink.command.CreateAccountActivationLinkCommand;
 import sa.common.core.activationLink.command.SendAccountActivationEmailCommand;
+import sa.common.core.activationLink.event.AccountActivatedEvent;
+import sa.common.core.activationLink.event.AccountActivationExpiredEvent;
 import sa.common.core.activationLink.event.AccountActivationLinkCreatedEvent;
 import sa.common.core.user.AccountActivationManagementSaga;
 import sa.common.core.user.UserCreatedEvent;
 import sa.common.model.enums.Role;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -48,6 +51,7 @@ public class AccountActivationManagementSagaTest {
     @Test
     public void testAccountActivationLinkSent() {
         String linkId = UUID.randomUUID().toString();
+        LocalDate expirationDate = LocalDate.now().plusDays(1);
         UserCreatedEvent userCreatedEvent = UserCreatedEvent.builder()
                 .id("12345")
                 .username("username")
@@ -58,9 +62,48 @@ public class AccountActivationManagementSagaTest {
                 .build();
 
         fixture.givenAggregate(userCreatedEvent.getId()).published(userCreatedEvent)
-                .whenAggregate(linkId).publishes(new AccountActivationLinkCreatedEvent(linkId, userCreatedEvent.getId()))
+                .whenAggregate(linkId)
+                .publishes(new AccountActivationLinkCreatedEvent(linkId, userCreatedEvent.getId(), expirationDate))
                 .expectActiveSagas(1)
                 .expectDispatchedCommands(
                         new SendAccountActivationEmailCommand(linkId, userCreatedEvent.getId(), userCreatedEvent.getEmail()));
+    }
+
+    @Test
+    public void testAccountActivatedAfterLinkClicked() {
+        String linkId = UUID.randomUUID().toString();
+        UserCreatedEvent userCreatedEvent = UserCreatedEvent.builder()
+                .id("12345")
+                .username("username")
+                .password("password")
+                .role(Role.USER)
+                .email("test@email.com")
+                .enabled(false)
+                .build();
+
+        fixture.givenAggregate(userCreatedEvent.getId()).published(userCreatedEvent)
+                .andThenAggregate(linkId).published(new AccountActivationLinkCreatedEvent(linkId, "userId", LocalDate.now()))
+                .whenAggregate(linkId).publishes(new AccountActivatedEvent(linkId, "userId"))
+                .expectActiveSagas(1)
+                .expectNoDispatchedCommands();
+    }
+
+    @Test
+    public void testAccountNotActivatedAfterLinkExpired() {
+        String linkId = UUID.randomUUID().toString();
+        UserCreatedEvent userCreatedEvent = UserCreatedEvent.builder()
+                .id("12345")
+                .username("username")
+                .password("password")
+                .role(Role.USER)
+                .email("test@email.com")
+                .enabled(false)
+                .build();
+
+        fixture.givenAggregate(userCreatedEvent.getId()).published(userCreatedEvent)
+                .andThenAggregate(linkId).published(new AccountActivationLinkCreatedEvent(linkId, "userId", LocalDate.now()))
+                .whenAggregate(linkId).publishes(new AccountActivationExpiredEvent(linkId))
+                .expectActiveSagas(1)
+                .expectNoDispatchedCommands();
     }
 }

@@ -10,6 +10,7 @@ import sa.common.core.activationLink.command.CreateAccountActivationLinkCommand;
 import sa.common.core.activationLink.command.SendAccountActivationEmailCommand;
 import sa.common.core.activationLink.event.AccountActivatedEvent;
 import sa.common.core.activationLink.event.AccountActivationEmailSentEvent;
+import sa.common.core.activationLink.event.AccountActivationExpiredEvent;
 import sa.common.core.activationLink.event.AccountActivationLinkCreatedEvent;
 import sa.common.email.ActivationStatus;
 
@@ -19,6 +20,8 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 @Aggregate
 public class AccountActivationLinkAggregate {
+
+    private static final LocalDate DEFAULT_EXPIRATION_PERIOD_IN_DAYS = LocalDate.now().plusDays(1);
 
     @AggregateIdentifier
     private String linkId;
@@ -33,7 +36,7 @@ public class AccountActivationLinkAggregate {
 
     @CommandHandler
     public AccountActivationLinkAggregate(CreateAccountActivationLinkCommand cmd) {
-        apply(new AccountActivationLinkCreatedEvent(cmd.getLinkId(),cmd.getUserId()));
+        apply(new AccountActivationLinkCreatedEvent(cmd.getLinkId(), cmd.getUserId(), DEFAULT_EXPIRATION_PERIOD_IN_DAYS));
     }
 
     @CommandHandler
@@ -43,13 +46,18 @@ public class AccountActivationLinkAggregate {
 
     @CommandHandler
     public void handle(ActivateAccountCommand cmd) {
-        apply(new AccountActivatedEvent(cmd.getLinkId(), this.userId));
+        if (cmd.getWhen().isAfter(expirationDate)) {
+            apply(new AccountActivationExpiredEvent(this.linkId));
+        } else {
+            apply(new AccountActivatedEvent(cmd.getLinkId(), this.userId));
+        }
     }
 
     @EventSourcingHandler
     public void on(AccountActivationLinkCreatedEvent event) {
         this.linkId = event.getLinkId();
         this.userId = event.getUserId();
+        this.expirationDate = event.getExpirationDate();
     }
 
     @EventHandler

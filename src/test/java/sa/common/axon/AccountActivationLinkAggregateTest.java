@@ -10,14 +10,17 @@ import sa.common.core.activationLink.command.CreateAccountActivationLinkCommand;
 import sa.common.core.activationLink.command.SendAccountActivationEmailCommand;
 import sa.common.core.activationLink.event.AccountActivatedEvent;
 import sa.common.core.activationLink.event.AccountActivationEmailSentEvent;
+import sa.common.core.activationLink.event.AccountActivationExpiredEvent;
 import sa.common.core.activationLink.event.AccountActivationLinkCreatedEvent;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class AccountActivationLinkAggregateTest {
 
     private FixtureConfiguration<AccountActivationLinkAggregate> fixture;
     private String linkId;
+    private LocalDate expirationDate = LocalDate.now().plusDays(1);
 
     @Before
     public void setUp() {
@@ -29,20 +32,28 @@ public class AccountActivationLinkAggregateTest {
     public void testAccountActivationLinkCreated() {
         fixture.givenNoPriorActivity()
                 .when(new CreateAccountActivationLinkCommand(linkId, "userId"))
-                .expectEvents(new AccountActivationLinkCreatedEvent(linkId, "userId"));
+                .expectEvents(new AccountActivationLinkCreatedEvent(linkId, "userId", expirationDate));
     }
 
     @Test
     public void testAccountActivationEmailSent() {
-        fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId"))
+        fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId", expirationDate))
                 .when(new SendAccountActivationEmailCommand(linkId, "userId", "email@email.com"))
                 .expectEvents(new AccountActivationEmailSentEvent(linkId, "userId", "email@email.com"));
     }
 
     @Test
     public void testAccountActivated() {
-        fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId"))
-                .when(new ActivateAccountCommand(linkId))
+        fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId", expirationDate))
+                .when(new ActivateAccountCommand(linkId, LocalDate.now()))
                 .expectEvents(new AccountActivatedEvent(linkId, "userId"));
+    }
+
+    @Test
+    public void testAccountNotActivated() {
+        LocalDate afterExpirationDate = LocalDate.now().plusYears(1);
+        fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId", expirationDate))
+                .when(new ActivateAccountCommand(linkId, afterExpirationDate))
+                .expectEvents(new AccountActivationExpiredEvent(linkId));
     }
 }

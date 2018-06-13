@@ -1,5 +1,6 @@
 package sa.common.core.activationLink;
 
+import lombok.extern.log4j.Log4j2;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,12 +13,10 @@ import sa.common.email.ActivationLinkRepository;
 import sa.common.email.ActivationStatus;
 import sa.common.repository.UserRepository;
 
-import java.time.LocalDate;
-
+@Log4j2
 @Component
 public class AccountActivationHandler {
 
-    private static final Integer DEFAULT_ACTIVATION_LINK_DURATION_DAYS = 1;
     private static final String ACTIVATION_ENDPOINT = "localhost:8092/users/activations/";
 
     private final JavaMailSender emailSender;
@@ -33,12 +32,11 @@ public class AccountActivationHandler {
 
     @EventHandler
     public void on(AccountActivationLinkCreatedEvent event) {
-        LocalDate expirationDate = LocalDate.now().plusDays(DEFAULT_ACTIVATION_LINK_DURATION_DAYS);
         accountActivationLink = AccountActivationLink.builder()
                 .id(event.getLinkId())
                 .userId(event.getUserId())
                 .status(ActivationStatus.NOT_ACTIVATED)
-                .expirationDate(expirationDate)
+                .expirationDate(event.getExpirationDate())
                 .build();
 
         activationLinkRepository.save(accountActivationLink);
@@ -59,6 +57,7 @@ public class AccountActivationHandler {
 
     @EventHandler
     public void on(AccountActivationEmailSentEvent event) {
+        log.info("Sending account activation link to : " + event.getEmail());
         sendSimpleMessage(event.getEmail(), "Squad Agenda: activation link", ACTIVATION_ENDPOINT + accountActivationLink.getId());
     }
 

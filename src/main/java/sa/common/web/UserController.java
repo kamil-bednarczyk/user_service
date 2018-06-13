@@ -1,6 +1,5 @@
 package sa.common.web;
 
-import com.google.gson.Gson;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +18,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserController {
 
-    private Gson gson;
     private UserRepository userRepository;
     private CommandGateway commandGateway;
 
@@ -30,7 +29,6 @@ public class UserController {
     public UserController(UserRepository userRepository, CommandGateway commandGateway) {
         this.userRepository = userRepository;
         this.commandGateway = commandGateway;
-        this.gson = new Gson();
     }
 
     @GetMapping("/{id}")
@@ -66,6 +64,5 @@ public class UserController {
                 .role(userDto.getRole())
                 .enable(userDto.isEnable())
                 .build());
-
     }
 }

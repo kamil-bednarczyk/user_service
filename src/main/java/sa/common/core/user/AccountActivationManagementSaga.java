@@ -33,13 +33,15 @@ public class AccountActivationManagementSaga {
     public void on(UserCreatedEvent event) {
         this.userId = event.getId();
         this.userEmail = event.getEmail();
-        commandGateway.send(new CreateAccountActivationLinkCommand(UUID.randomUUID().toString(), event.getId()));
+        String link = UUID.randomUUID().toString();
+        SagaLifecycle.associateWith("linkId", link);
+        commandGateway.send(new CreateAccountActivationLinkCommand(link, event.getId()));
     }
 
     @SagaEventHandler(associationProperty = "linkId")
     public void on(AccountActivationLinkCreatedEvent event) {
         this.linkId = event.getLinkId();
-        commandGateway.send(new SendAccountActivationEmailCommand(event.getLinkId(), event.getUserId(), this.userEmail));
+        commandGateway.send(new SendAccountActivationEmailCommand(this.linkId, event.getUserId(), this.userEmail));
     }
 
     @SagaEventHandler(associationProperty = "linkId")
