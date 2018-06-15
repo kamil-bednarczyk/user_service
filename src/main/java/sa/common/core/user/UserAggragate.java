@@ -44,7 +44,7 @@ public class UserAggragate {
                 .username(cmd.getUsername())
                 .email(cmd.getEmail())
                 .role(cmd.getRole())
-                .enable(cmd.isEnable())
+                .enable(cmd.isEnabled())
                 .build());
     }
 
@@ -63,7 +63,7 @@ public class UserAggragate {
         this.id = event.getId();
         this.username = event.getUsername();
         this.email = event.getEmail();
-        this.role = Role.valueOf(event.getRole());
+        this.role = event.getRole();
         this.enabled = event.isEnable();
     }
 }

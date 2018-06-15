@@ -3,6 +3,7 @@ package sa.common.core.user;
 import lombok.Builder;
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
+import sa.common.model.enums.Role;
 
 @Value
 @Builder
@@ -13,6 +14,6 @@ public class UpdateUserCommand {
 
     private final String username;
     private final String email;
-    private final String role;
-    private final boolean enable;
+    private final Role role;
+    private final boolean isEnabled;
 }

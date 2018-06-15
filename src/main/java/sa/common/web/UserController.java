@@ -51,7 +51,7 @@ public class UserController {
                 .password(createUserDto.getPassword())
                 .email(createUserDto.getEmail())
                 .role(Role.valueOf(createUserDto.getRole()))
-                .enabled(false) // changed to true after acc activation via email link
+                .isEnabled(false) // changed to true after acc activation via email link
                 .build());
     }
 
@@ -61,8 +61,8 @@ public class UserController {
                 .id(userDto.getId())
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
-                .role(userDto.getRole())
-                .enable(userDto.isEnable())
+                .role(Role.valueOf(userDto.getRole()))
+                .isEnabled(userDto.isEnable())
                 .build());
     }
 }

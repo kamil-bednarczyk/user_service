@@ -24,7 +24,7 @@ public class UserAggregateTest {
                         .username("username")
                         .password("password")
                         .email("rmail@email.com")
-                        .enabled(false)
+                        .isEnabled(false)
                         .role(Role.USER)
                         .build())
                 .expectEvents(UserCreatedEvent.builder()
@@ -51,15 +51,15 @@ public class UserAggregateTest {
                         .id("id")
                         .username("updated")
                         .email("updated@email.com")
-                        .enable(false)
-                        .role(Role.ADMIN.toString())
+                        .isEnabled(false)
+                        .role(Role.ADMIN)
                         .build())
                 .expectEvents(UserUpdatedEvent.builder()
                         .id("id")
                         .username("updated")
                         .email("updated@email.com")
                         .enable(false)
-                        .role(Role.ADMIN.toString())
+                        .role(Role.ADMIN)
                         .build());
     }
 }

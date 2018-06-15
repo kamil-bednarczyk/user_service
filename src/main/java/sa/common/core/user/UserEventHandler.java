@@ -5,7 +5,6 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import sa.common.model.entity.User;
-import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 
 @Log4j2
@@ -42,7 +41,7 @@ public class UserEventHandler {
     private static User update(User user, UserUpdatedEvent event) {
         user.setUsername(event.getUsername());
         user.setEmail(event.getEmail());
-        user.setRole(Role.valueOf(event.getRole()));
+        user.setRole(event.getRole());
         user.setEnabled(event.isEnable());
         return user;
     }

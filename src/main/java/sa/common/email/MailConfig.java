@@ -14,7 +14,8 @@ public class MailConfig {
     private final String username;
     private final String password;
 
-    public MailConfig(@Value("${mail.username}") String username, @Value(("${mail.password}")) String password) {
+    public MailConfig(@Value("${mail.username}") String username,
+                      @Value(("${mail.password}")) String password) {
         this.username = username;
         this.password = password;
     }
