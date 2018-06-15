@@ -1,15 +1,33 @@
 package sa.common.web.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
 import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
+import sa.common.repository.UserRepository;
 
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserService {
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).get();
+    }
+
     public static UserDto convertToDto(User user) {
         return UserDto.builder()
                 .id(user.getId())

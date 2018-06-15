@@ -9,7 +9,7 @@ import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
-import sa.common.web.service.UserService;
+import sa.common.web.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserController {
 
@@ -33,13 +33,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Optional<UserDto> getUser(@PathVariable("id") String id) {
-        return userRepository.findById(id).map(UserService::convertToDto);
+        return userRepository.findById(id).map(CustomUserDetailsService::convertToDto);
     }
 
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(UserService::convertToDto)
+                .map(CustomUserDetailsService::convertToDto)
                 .collect(Collectors.toList());
     }
 
