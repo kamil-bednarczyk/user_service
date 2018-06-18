@@ -1,6 +1,7 @@
 package sa.common.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,11 +14,21 @@ import sa.common.web.service.CustomUserDetailsService;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    private final String secret;
+    private final String clientId;
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+
+    public AuthorizationServerConfig(@Value("${security.oauth2.client.client-id}") String secret,
+                                     @Value("${security.oauth2.client.client-secret}") String clientId) {
+        this.secret = secret;
+        this.clientId = clientId;
+    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer configurer) {
@@ -28,8 +39,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("kassad")
-                .secret("{noop}kassad")
+                .withClient(clientId)
+                .secret("{noop}"+ secret)
                 .autoApprove(true)
                 .scopes("read")
                 .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token");

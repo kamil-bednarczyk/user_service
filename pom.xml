@@ -132,6 +132,13 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <!-- to intercept mail sender -->
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>1.5.7</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

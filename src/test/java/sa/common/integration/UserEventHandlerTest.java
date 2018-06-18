@@ -1,17 +1,22 @@
 package sa.common.integration;
 
 
+import com.icegreen.greenmail.configuration.GreenMailConfiguration;
+import com.icegreen.greenmail.junit.GreenMailRule;
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetup;
+import com.icegreen.greenmail.util.ServerSetupTest;
 import lombok.extern.log4j.Log4j2;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import sa.common.UserServiceApplication;
 import sa.common.core.user.CreateUserCommand;
 import sa.common.core.user.UpdateUserCommand;
 import sa.common.email.ActivationLinkRepository;
@@ -37,15 +42,19 @@ public class UserEventHandlerTest {
     private CreateUserCommand createUserCommand;
     private User expectedUser;
 
+    public GreenMail greenMail;
 
     @Before
     public void setUp() {
+
+        greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail.start();
 
         createUserCommand = CreateUserCommand.builder()
                 .id("1234")
                 .username("username")
                 .password("password")
-                .email("email@email.com")
+                .email("test@localhost.com")
                 .isEnabled(false)
                 .role(Role.USER)
                 .build();
@@ -58,6 +67,11 @@ public class UserEventHandlerTest {
                 .role(createUserCommand.getRole())
                 .enabled(createUserCommand.isEnabled())
                 .build();
+    }
+
+    @After
+    public void cleanUp() {
+        greenMail.stop();
     }
 
     @Test
@@ -76,7 +90,7 @@ public class UserEventHandlerTest {
         UpdateUserCommand updateUserCommand = UpdateUserCommand.builder()
                 .id("1234")
                 .username("updated")
-                .email("updatedemail@email.com")
+                .email("updatedemail@localhost.com")
                 .role(Role.ADMIN)
                 .build();
 

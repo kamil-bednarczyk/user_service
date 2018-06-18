@@ -13,11 +13,17 @@ public class MailConfig {
 
     private final String username;
     private final String password;
+    private final Integer port;
+    private final String host;
 
     public MailConfig(@Value("${mail.username}") String username,
-                      @Value(("${mail.password}")) String password) {
+                      @Value("${mail.password}") String password,
+                      @Value("${mail.port}") Integer port,
+                      @Value("${mail.host}") String host) {
         this.username = username;
         this.password = password;
+        this.port = port;
+        this.host = host;
     }
 
     @Bean
@@ -25,8 +31,8 @@ public class MailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setUsername(this.username);
         mailSender.setPassword(this.password);
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(465);
+        mailSender.setHost(this.host);
+        mailSender.setPort(this.port);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

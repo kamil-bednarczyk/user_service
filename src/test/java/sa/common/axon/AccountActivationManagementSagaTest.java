@@ -50,7 +50,7 @@ public class AccountActivationManagementSagaTest {
 
     @Test
     public void testAccountActivationLinkSent() {
-        String linkId = UUID.randomUUID().toString();
+        final String linkId = UUID.randomUUID().toString();
         LocalDate expirationDate = LocalDate.now().plusDays(1);
         UserCreatedEvent userCreatedEvent = UserCreatedEvent.builder()
                 .id("12345")
@@ -82,8 +82,8 @@ public class AccountActivationManagementSagaTest {
                 .build();
 
         fixture.givenAggregate(userCreatedEvent.getId()).published(userCreatedEvent)
-                .andThenAggregate(linkId).published(new AccountActivationLinkCreatedEvent(linkId, "userId", LocalDate.now()))
-                .whenAggregate(linkId).publishes(new AccountActivatedEvent(linkId, "userId"))
+                .andThenAggregate(linkId).published(new AccountActivationLinkCreatedEvent(linkId, userCreatedEvent.getId(), LocalDate.now()))
+                .whenAggregate(linkId).publishes(new AccountActivatedEvent(linkId, userCreatedEvent.getId()))
                 .expectActiveSagas(1)
                 .expectNoDispatchedCommands();
     }
