@@ -12,13 +12,15 @@ import sa.common.repository.UserRepository;
 import sa.common.web.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserController {
 
@@ -45,7 +47,7 @@ public class UserController {
 
     @PostMapping
     public void createUser(@RequestBody @Valid CreateUserDto createUserDto) {
-        commandGateway.send(CreateUserCommand.builder()
+         commandGateway.send(CreateUserCommand.builder()
                 .id(UUID.randomUUID().toString())
                 .username(createUserDto.getUsername())
                 .password(createUserDto.getPassword())
