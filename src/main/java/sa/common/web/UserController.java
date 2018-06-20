@@ -1,35 +1,30 @@
 package sa.common.web;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import sa.common.core.user.CreateUserCommand;
-import sa.common.core.user.UpdateUserCommand;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
-import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 import sa.common.web.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private UserRepository userRepository;
-    private CommandGateway commandGateway;
+    private final UserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public UserController(UserRepository userRepository, CommandGateway commandGateway) {
+    public UserController(UserRepository userRepository,
+                          CustomUserDetailsService customUserDetailsService) {
         this.userRepository = userRepository;
-        this.commandGateway = commandGateway;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @GetMapping("/{id}")
@@ -46,24 +41,12 @@ public class UserController {
 
     @PostMapping
     public void createUser(@RequestBody @Valid CreateUserDto createUserDto) {
-         commandGateway.send(CreateUserCommand.builder()
-                .id(UUID.randomUUID().toString())
-                .username(createUserDto.getUsername())
-                .password(createUserDto.getPassword())
-                .email(createUserDto.getEmail())
-                .role(Role.valueOf(createUserDto.getRole()))
-                .isEnabled(false) // changed to true after acc activation via email link
-                .build());
+        customUserDetailsService.sendCreateUserCommand(createUserDto);
     }
 
     @PutMapping
     public void updateUser(@RequestBody @Valid UserDto userDto) {
-        commandGateway.send(UpdateUserCommand.builder()
-                .id(userDto.getId())
-                .username(userDto.getUsername())
-                .email(userDto.getEmail())
-                .role(Role.valueOf(userDto.getRole()))
-                .isEnabled(userDto.isEnable())
-                .build());
+        customUserDetailsService.sendUpdateUserCommand(userDto);
     }
+
 }

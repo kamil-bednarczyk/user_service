@@ -1,11 +1,17 @@
 package sa.common.model.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import sa.common.annotation.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateUserDto {
 
     @NotEmpty

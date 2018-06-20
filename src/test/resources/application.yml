@@ -13,4 +13,13 @@ mail:
   host: localhost
   username: username
   password: secret
-  port: 3025
+  port: 50025
+  smtp:
+    ssl:
+      enable: false
+
+security:
+  oauth2:
+    client:
+      client-id: test
+      client-secret: test

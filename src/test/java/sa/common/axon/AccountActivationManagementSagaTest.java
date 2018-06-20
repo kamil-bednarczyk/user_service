@@ -16,8 +16,6 @@ import sa.common.model.enums.Role;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.anyString;
-
 public class AccountActivationManagementSagaTest {
 
     private FixtureConfiguration fixture;
@@ -44,7 +42,7 @@ public class AccountActivationManagementSagaTest {
                 .publishes(userCreatedEvent)
                 .expectActiveSagas(1)
                 .expectDispatchedCommands(new CreateAccountActivationLinkCommand(
-                        anyString(),
+                        UUID.randomUUID().toString(),
                         userCreatedEvent.getId()));
     }
 

@@ -24,7 +24,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
     public AuthorizationServerConfiguration(@Value("${security.oauth2.client.client-id}") String secret,
                                             @Value("${security.oauth2.client.client-secret}") String clientId) {
         this.secret = secret;
@@ -43,10 +42,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .withClient(clientId)
                 .secret("{noop}"+ secret)
                 .autoApprove(true)
-                .scopes("read")
+                .scopes("read", "write")
                 .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token");
     }
-
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {

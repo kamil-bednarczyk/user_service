@@ -1,16 +1,12 @@
 package sa.common.integration;
 
 
-import com.icegreen.greenmail.configuration.GreenMailConfiguration;
-import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
-import com.icegreen.greenmail.util.ServerSetupTest;
 import lombok.extern.log4j.Log4j2;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +38,13 @@ public class UserEventHandlerTest {
     private CreateUserCommand createUserCommand;
     private User expectedUser;
 
-    public GreenMail greenMail;
+    private GreenMail greenMail;
 
     @Before
     public void setUp() {
-
-        greenMail = new GreenMail(ServerSetupTest.SMTP);
+        ServerSetup setup = new ServerSetup(50025, "localhost", "smtp");
+        greenMail = new GreenMail(setup);
+        greenMail.setUser("username", "secret");
         greenMail.start();
 
         createUserCommand = CreateUserCommand.builder()
@@ -96,8 +93,7 @@ public class UserEventHandlerTest {
 
         commandGateway.send(updateUserCommand);
 
-        assertThat(userRepository.findById(updateUserCommand.getId()).get())
-                .isNotNull()
+        assertThat(userRepository.findById(updateUserCommand.getId()).get()).isNotNull()
                 .isEqualToIgnoringGivenFields(updateUserCommand, "password");
     }
 }

@@ -1,26 +1,54 @@
 package sa.common.web.service;
 
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import sa.common.core.user.CreateUserCommand;
+import sa.common.core.user.UpdateUserCommand;
+import sa.common.exception.UsernameAlreadyExists;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
 import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 
-import javax.validation.Valid;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final CommandGateway commandGateway;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository, CommandGateway commandGateway) {
         this.userRepository = userRepository;
+        this.commandGateway = commandGateway;
+    }
+
+    public void sendCreateUserCommand(CreateUserDto createUserDto) {
+        if (userRepository.existsByUsername(createUserDto.getUsername())) {
+            throw new UsernameAlreadyExists(createUserDto.getUsername());
+        }
+        commandGateway.send(CreateUserCommand.builder()
+                .id(UUID.randomUUID().toString())
+                .username(createUserDto.getUsername())
+                .password(createUserDto.getPassword())
+                .email(createUserDto.getEmail())
+                .role(Role.valueOf(createUserDto.getRole()))
+                .isEnabled(false) // changed to true after acc activation via email link
+                .build());
+    }
+
+    public void sendUpdateUserCommand(UserDto userDto) {
+        commandGateway.send(UpdateUserCommand.builder()
+                .id(userDto.getId())
+                .username(userDto.getUsername())
+                .email(userDto.getEmail())
+                .role(Role.valueOf(userDto.getRole()))
+                .isEnabled(userDto.isEnable())
+                .build());
     }
 
     @Override
@@ -35,16 +63,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .email(user.getEmail())
                 .role(user.getRole().toString())
                 .build();
-    }
-
-    public static Optional<User> convertToUser(@Valid CreateUserDto createUserDto) {
-        return Optional.of(User.builder()
-                .id(UUID.randomUUID().toString())
-                .username(createUserDto.getUsername())
-                .email(createUserDto.getEmail())
-                .password(createUserDto.getPassword())
-                .enabled(true)
-                .role(Role.valueOf(createUserDto.getRole()))
-                .build());
     }
 }
