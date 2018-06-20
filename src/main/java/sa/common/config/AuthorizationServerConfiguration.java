@@ -13,7 +13,7 @@ import sa.common.web.service.CustomUserDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private final String secret;
     private final String clientId;
@@ -25,8 +25,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
 
-    public AuthorizationServerConfig(@Value("${security.oauth2.client.client-id}") String secret,
-                                     @Value("${security.oauth2.client.client-secret}") String clientId) {
+    public AuthorizationServerConfiguration(@Value("${security.oauth2.client.client-id}") String secret,
+                                            @Value("${security.oauth2.client.client-secret}") String clientId) {
         this.secret = secret;
         this.clientId = clientId;
     }

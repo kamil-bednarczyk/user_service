@@ -8,14 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MongoConfig {
-
+public class MongoConfiguration {
 
     private final String host;
     private final Integer port;
 
-    public MongoConfig(@Value("${spring.data.mongodb.host}") String host,
-                       @Value("${spring.data.mongodb.port}") Integer port) {
+    public MongoConfiguration(@Value("${spring.data.mongodb.host}") String host,
+                              @Value("${spring.data.mongodb.port}") Integer port) {
         this.host = host;
         this.port = port;
     }

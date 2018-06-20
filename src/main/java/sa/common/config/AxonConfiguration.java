@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Log4j2
-public class AxonConfig {
+public class AxonConfiguration {
 
     @Autowired
     private MongoTemplate mongoTemplate;

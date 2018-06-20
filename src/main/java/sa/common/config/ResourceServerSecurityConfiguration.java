@@ -10,13 +10,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableResourceServer
+public class ResourceServerSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -24,14 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-/*    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/oauth/check_token")
-                .permitAll()
-                .anyRequest().hasAnyRole("ANONYMOUS, USER");
-    }*/
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().disable();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

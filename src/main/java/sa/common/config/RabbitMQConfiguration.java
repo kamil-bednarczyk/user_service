@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Log4j2
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQConfiguration {
 
     @Bean
     public Exchange exchange() {
