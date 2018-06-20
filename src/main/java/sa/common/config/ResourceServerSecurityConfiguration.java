@@ -16,8 +16,14 @@ public class ResourceServerSecurityConfiguration extends ResourceServerConfigure
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.requestMatchers()
-                .and().authorizeRequests()
+        http.authorizeRequests()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/configuration/**",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/api-docs/**").permitAll()
                 .antMatchers(HttpMethod.GET).access(READ_SCOPE)
                 .antMatchers(HttpMethod.GET).access(WRITE_SCOPE)
                 .antMatchers(HttpMethod.POST).access(WRITE_SCOPE)
