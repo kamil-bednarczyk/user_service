@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@Log4j2
 public class AxonConfiguration {
 
     private final String host;
@@ -45,5 +44,4 @@ public class AxonConfiguration {
     public EventStore eventStore() {
         return new EmbeddedEventStore(eventStorageEngine());
     }
-
 }
