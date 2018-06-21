@@ -1,4 +1,4 @@
-package sa.common.config;
+package sa.common.config.security;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

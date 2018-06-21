@@ -1,4 +1,4 @@
-package sa.common.config;
+package sa.common.config.oauth2;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

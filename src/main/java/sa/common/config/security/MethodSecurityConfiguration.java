@@ -1,4 +1,4 @@
-package sa.common.config;
+package sa.common.config.security;
 
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
