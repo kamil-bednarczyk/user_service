@@ -1,5 +1,6 @@
 package sa.common.web.service;
 
+import lombok.EqualsAndHashCode;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

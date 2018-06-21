@@ -40,14 +40,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient(clientId)
-                .secret("{noop}"+ secret)
+                .secret("{noop}" + secret)
                 .autoApprove(true)
                 .scopes("read", "write")
-                .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token");
+                .authorizedGrantTypes("password", "client_credentials");
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security){
         security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 }

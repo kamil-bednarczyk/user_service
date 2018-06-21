@@ -6,6 +6,9 @@ spring:
       host: localhost
       port: 27017
       database: agenda
+  mvc:
+    dispatch-options-request: true
+
 server:
   port: 8092
 eureka:
@@ -36,3 +39,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
