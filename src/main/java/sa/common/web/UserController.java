@@ -1,7 +1,6 @@
 package sa.common.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
@@ -32,6 +31,11 @@ public class UserController {
         return userRepository.findById(id).map(CustomUserDetailsService::convertToDto);
     }
 
+    @GetMapping("/username/{username}")
+    public Optional<UserDto> getUserByName(@PathVariable("username") String username) {
+        return userRepository.findByUsername(username).map(CustomUserDetailsService::convertToDto);
+    }
+
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
@@ -39,8 +43,8 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
-    public void createUser(@RequestBody @Valid CreateUserDto createUserDto) {
+    @PostMapping("/registration")
+    public void registerUser(@RequestBody @Valid CreateUserDto createUserDto) {
         customUserDetailsService.sendCreateUserCommand(createUserDto);
     }
 
@@ -48,5 +52,4 @@ public class UserController {
     public void updateUser(@RequestBody @Valid UserDto userDto) {
         customUserDetailsService.sendUpdateUserCommand(userDto);
     }
-
 }

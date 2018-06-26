@@ -22,8 +22,8 @@ security:
   oauth2:
     client:
       client-id: kassad
-      client-secret: kassad # $2a$08$kU3H5uvRJlZ2UvcaFpi5GOriMuBtp3.VR8luvgYJ6c5F.I5mQpZFS
-      authorized-grant-types: authorization_code,refresh_token,password
+      client-secret: kassad
+#      authorized-grant-types: authorization_code,refresh_token,password
 
 mail:
   host: smtp.gmail.com

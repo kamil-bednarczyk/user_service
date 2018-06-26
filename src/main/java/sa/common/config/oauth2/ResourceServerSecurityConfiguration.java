@@ -24,7 +24,9 @@ public class ResourceServerSecurityConfiguration extends ResourceServerConfigure
                         "/swagger-ui.html",
                         "/webjars/**",
                         "/api-docs/**").permitAll()
-                .antMatchers(HttpMethod.GET).access(READ_SCOPE)
+                .antMatchers("/users/registration").permitAll();
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET).access(READ_SCOPE)
                 .antMatchers(HttpMethod.GET).access(WRITE_SCOPE)
                 .antMatchers(HttpMethod.POST).access(WRITE_SCOPE)
                 .antMatchers(HttpMethod.PUT).access(WRITE_SCOPE)
