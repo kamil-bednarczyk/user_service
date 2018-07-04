@@ -4,6 +4,8 @@ eureka:
     enabled: false
 
 spring:
+  rabbitmq:
+    port: 15673
   data:
     mongodb:
       host: localhost

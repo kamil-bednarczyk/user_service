@@ -3,11 +3,11 @@ package sa.common.integration;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.qpid.server.Broker;
+import org.apache.qpid.server.BrokerOptions;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +22,9 @@ import sa.common.repository.UserRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Log4j2
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
 public class UserEventHandlerTest {
 
@@ -35,13 +35,30 @@ public class UserEventHandlerTest {
     @Autowired
     private ActivationLinkRepository activationLinkRepository;
 
+
     private CreateUserCommand createUserCommand;
     private User expectedUser;
 
     private GreenMail greenMail;
+    private static Broker broker;
+
+    @BeforeClass
+    public static void setupRabbit() throws Exception {
+        embeddedQMQPBroker();
+    }
+
+    public static void embeddedQMQPBroker() throws Exception {
+        broker = new Broker();
+        BrokerOptions brokerOptions = new BrokerOptions();
+        brokerOptions.setConfigProperty("qpid.amqp_port", "15673");
+        brokerOptions.setConfigProperty("qpid.broker.defaultPreferenceStoreAttributes", "{\"type\": \"Noop\"}");
+        brokerOptions.setConfigurationStoreType("Memory");
+        broker.startup(brokerOptions);
+    }
 
     @Before
     public void setUp() {
+
         ServerSetup setup = new ServerSetup(50025, "localhost", "smtp");
         greenMail = new GreenMail(setup);
         greenMail.setUser("username", "secret");
@@ -71,6 +88,11 @@ public class UserEventHandlerTest {
     @After
     public void cleanUp() {
         greenMail.stop();
+    }
+
+    @AfterClass
+    public static void removeRabbit() {
+        broker.shutdown();
     }
 
     @Test

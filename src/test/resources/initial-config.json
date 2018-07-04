@@ -1,0 +1,22 @@
+
+{
+  "name" : "EmbeddedBroker",
+  "defaultVirtualHost" : "default",
+  "modelVersion" : "1.0",
+  "storeVersion" : 1,
+  "authenticationproviders" : [ {
+    "name" : "passwordFile",
+    "path" : "src/test/resources/password.properties",
+    "type" : "PlainPasswordFile"
+  } ],
+  "ports" : [ {
+    "name" : "AMQP",
+    "port" : "${qpid.amqp_port}",
+    "authenticationProvider" : "passwordFile"
+  } ],
+  "virtualhosts" : [ {
+    "name" : "default",
+    "storePath" : "${qpid.work_dir}/derbystore/default",
+    "storeType" : "DERBY"
+  } ]
+}
