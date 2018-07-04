@@ -21,7 +21,7 @@ public class JavaMailerConfiguration {
                                    @Value("${mail.password}") String password,
                                    @Value("${mail.port}") Integer port,
                                    @Value("${mail.host}") String host,
-                                   @Value("${mail.smtp.ssl.enable}")  Boolean sslEnabled) {
+                                   @Value("${mail.smtp.ssl.enable}") Boolean sslEnabled) {
         this.username = username;
         this.password = password;
         this.port = port;

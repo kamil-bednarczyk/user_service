@@ -59,12 +59,12 @@ public class UserController {
 
     @PostMapping("/avatars/{username}")
     public void updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable String username) {
-        log.info(file);
+
         this.userRepository.findByUsername(username).ifPresent(user -> {
             try {
                 user.setAvatar(file.getBytes());
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info(e);
             }
             userRepository.save(user);
         });
