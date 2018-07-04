@@ -19,4 +19,5 @@ public class UserDto {
     @NotEmpty
     private String role;
     private boolean enable;
+    private byte[] avatar;
 }

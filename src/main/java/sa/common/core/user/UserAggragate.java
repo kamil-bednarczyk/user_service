@@ -19,6 +19,7 @@ public class UserAggragate {
     private String password;
     private String email;
     private boolean enabled;
+    private String teams;
     private Role role;
 
     @SuppressWarnings("unused")

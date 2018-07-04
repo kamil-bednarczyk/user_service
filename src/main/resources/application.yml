@@ -8,6 +8,10 @@ spring:
       database: agenda
   mvc:
     dispatch-options-request: true
+  servlet:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
 
 server:
   port: 8092

@@ -35,7 +35,7 @@ public class UserEventHandler {
     public void on(UserUpdatedEvent event) {
         userRepository.findById(event.getId())
                 .map(user -> update(user, event))
-                .map(userRepository::save);
+                .ifPresent(userRepository::save);
     }
 
     private static User update(User user, UserUpdatedEvent event) {

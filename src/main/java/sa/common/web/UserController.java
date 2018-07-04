@@ -1,18 +1,22 @@
 package sa.common.web;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
 import sa.common.repository.UserRepository;
 import sa.common.web.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@Log4j2
 @RequestMapping("/users")
 public class UserController {
 
@@ -51,5 +55,18 @@ public class UserController {
     @PutMapping
     public void updateUser(@RequestBody @Valid UserDto userDto) {
         customUserDetailsService.sendUpdateUserCommand(userDto);
+    }
+
+    @PostMapping("/avatars/{username}")
+    public void updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable String username) {
+        log.info(file);
+        this.userRepository.findByUsername(username).ifPresent(user -> {
+            try {
+                user.setAvatar(file.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            userRepository.save(user);
+        });
     }
 }
