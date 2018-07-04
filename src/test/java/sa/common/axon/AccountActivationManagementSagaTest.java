@@ -47,27 +47,6 @@ public class AccountActivationManagementSagaTest {
     }
 
     @Test
-    public void testAccountActivationLinkSent() {
-        final String linkId = UUID.randomUUID().toString();
-        LocalDate expirationDate = LocalDate.now().plusDays(1);
-        UserCreatedEvent userCreatedEvent = UserCreatedEvent.builder()
-                .id("12345")
-                .username("username")
-                .password("password")
-                .role(Role.USER)
-                .email("test@email.com")
-                .enabled(false)
-                .build();
-
-        fixture.givenAggregate(userCreatedEvent.getId()).published(userCreatedEvent)
-                .whenAggregate(linkId)
-                .publishes(new AccountActivationLinkCreatedEvent(linkId, userCreatedEvent.getId(), expirationDate))
-                .expectActiveSagas(1)
-                .expectDispatchedCommands(
-                        new SendAccountActivationEmailCommand(linkId, userCreatedEvent.getId(), userCreatedEvent.getEmail()));
-    }
-
-    @Test
     public void testAccountActivatedAfterLinkClicked() {
         String linkId = UUID.randomUUID().toString();
         UserCreatedEvent userCreatedEvent = UserCreatedEvent.builder()

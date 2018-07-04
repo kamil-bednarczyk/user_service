@@ -1,8 +1,7 @@
-package sa.common.web;
+package sa.common.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 @Data
 @NoArgsConstructor

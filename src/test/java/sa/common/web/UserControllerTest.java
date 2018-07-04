@@ -42,6 +42,7 @@ public class UserControllerTest {
                 .username("username")
                 .email("username@email.com")
                 .password("password")
+                .avatar(new byte[20])
                 .role("USER")
                 .build();
 
@@ -52,6 +53,7 @@ public class UserControllerTest {
                 .email(createUserDto.getEmail())
                 .role(Role.valueOf(createUserDto.getRole()))
                 .enabled(false)
+                .avatar(createUserDto.getAvatar())
                 .build();
 
         userDto = UserDto.builder()
@@ -60,6 +62,7 @@ public class UserControllerTest {
                 .email(createdUser.getEmail())
                 .role(createdUser.getRole().toString())
                 .enable(createdUser.isEnabled())
+                .avatar(createdUser.getAvatar())
                 .build();
     }
 
@@ -67,10 +70,10 @@ public class UserControllerTest {
     public void testCreateUser() {
         when(userRepository.save(any())).thenReturn(Optional.of(createdUser));
 
-        this.webTestClient.post()
+        this.webTestClient.post().uri("/registration")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
                 .body(fromObject(createUserDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().is2xxSuccessful();
     }

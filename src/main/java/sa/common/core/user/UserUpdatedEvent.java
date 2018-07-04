@@ -13,4 +13,5 @@ public class UserUpdatedEvent {
     private final String email;
     private final Role role;
     private final boolean enable;
+    private final byte[] avatar;
 }

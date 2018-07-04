@@ -27,6 +27,7 @@ public class UserEventHandler {
                 .email(event.getEmail())
                 .password(encoder.encode(event.getPassword()))
                 .role(event.getRole())
+                .avatar(event.getAvatar())
                 .enabled(event.isEnabled())
                 .build());
     }
@@ -43,6 +44,7 @@ public class UserEventHandler {
         user.setEmail(event.getEmail());
         user.setRole(event.getRole());
         user.setEnabled(event.isEnable());
+        user.setAvatar(event.getAvatar());
         return user;
     }
 }

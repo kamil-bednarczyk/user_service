@@ -15,6 +15,7 @@ public class CreateUserCommand {
     private final String username;
     private final String password;
     private final String email;
+    private final byte[] avatar;
     private final boolean isEnabled;
     private final Role role;
 }

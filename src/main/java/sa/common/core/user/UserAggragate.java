@@ -20,6 +20,7 @@ public class UserAggragate {
     private String email;
     private boolean enabled;
     private String teams;
+    private byte[] avatar;
     private Role role;
 
     @SuppressWarnings("unused")
@@ -35,6 +36,7 @@ public class UserAggragate {
                 .email(cmd.getEmail())
                 .role(cmd.getRole())
                 .enabled(cmd.isEnabled())
+                .avatar(cmd.getAvatar())
                 .build());
     }
 
@@ -46,6 +48,7 @@ public class UserAggragate {
                 .email(cmd.getEmail())
                 .role(cmd.getRole())
                 .enable(cmd.isEnabled())
+                .avatar(cmd.getAvatar())
                 .build());
     }
 
@@ -57,6 +60,7 @@ public class UserAggragate {
         this.password = event.getPassword();
         this.role = event.getRole();
         this.enabled = event.isEnabled();
+        this.avatar = event.getAvatar();
     }
 
     @EventHandler
@@ -66,5 +70,6 @@ public class UserAggragate {
         this.email = event.getEmail();
         this.role = event.getRole();
         this.enabled = event.isEnable();
+        this.avatar = event.getAvatar();
     }
 }

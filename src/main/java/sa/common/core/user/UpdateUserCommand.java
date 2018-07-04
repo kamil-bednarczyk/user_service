@@ -16,4 +16,5 @@ public class UpdateUserCommand {
     private final String email;
     private final Role role;
     private final boolean isEnabled;
+    private final byte[] avatar;
 }

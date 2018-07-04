@@ -38,6 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(createUserDto.getPassword())
                 .email(createUserDto.getEmail())
                 .role(Role.valueOf(createUserDto.getRole()))
+                .avatar(createUserDto.getAvatar())
                 .isEnabled(false) // changed to true after acc activation via email link
                 .build());
     }
@@ -49,6 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .email(userDto.getEmail())
                 .role(Role.valueOf(userDto.getRole()))
                 .isEnabled(userDto.isEnable())
+                .avatar(userDto.getAvatar())
                 .build());
     }
 

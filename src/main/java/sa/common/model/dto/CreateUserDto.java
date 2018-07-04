@@ -23,4 +23,5 @@ public class CreateUserDto {
     private String email;
     @NotEmpty
     private String role;
+    private byte[] avatar;
 }

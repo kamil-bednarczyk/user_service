@@ -53,6 +53,7 @@ public class UserEventHandlerTest {
                 .password("password")
                 .email("test@localhost.com")
                 .isEnabled(false)
+                .avatar(new byte[100])
                 .role(Role.USER)
                 .build();
 
@@ -62,6 +63,7 @@ public class UserEventHandlerTest {
                 .password(createUserCommand.getId()) //ignored due to password encryption
                 .email(createUserCommand.getEmail())
                 .role(createUserCommand.getRole())
+                .avatar(createUserCommand.getAvatar())
                 .enabled(createUserCommand.isEnabled())
                 .build();
     }
@@ -89,6 +91,7 @@ public class UserEventHandlerTest {
                 .username("updated")
                 .email("updatedemail@localhost.com")
                 .role(Role.ADMIN)
+                .avatar(new byte[100])
                 .build();
 
         commandGateway.send(updateUserCommand);

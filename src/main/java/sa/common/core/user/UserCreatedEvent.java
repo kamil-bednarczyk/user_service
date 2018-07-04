@@ -14,4 +14,5 @@ public class UserCreatedEvent {
     private final String email;
     private final Role role;
     private final boolean enabled;
+    private final byte[] avatar;
 }
