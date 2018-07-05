@@ -47,15 +47,6 @@ public class UserEventHandlerTest {
         embeddedQMQPBroker();
     }
 
-    public static void embeddedQMQPBroker() throws Exception {
-        broker = new Broker();
-        BrokerOptions brokerOptions = new BrokerOptions();
-        brokerOptions.setConfigProperty("qpid.amqp_port", "15673");
-        brokerOptions.setConfigProperty("qpid.broker.defaultPreferenceStoreAttributes", "{\"type\": \"Noop\"}");
-        brokerOptions.setConfigurationStoreType("Memory");
-        broker.startup(brokerOptions);
-    }
-
     @Before
     public void setUp() {
 
@@ -85,16 +76,6 @@ public class UserEventHandlerTest {
                 .build();
     }
 
-    @After
-    public void cleanUp() {
-        greenMail.stop();
-    }
-
-    @AfterClass
-    public static void removeRabbit() {
-        broker.shutdown();
-    }
-
     @Test
     public void testPersistNewUserAfterEventEmitted() {
         commandGateway.send(createUserCommand);
@@ -120,5 +101,25 @@ public class UserEventHandlerTest {
 
         assertThat(userRepository.findById(updateUserCommand.getId()).get()).isNotNull()
                 .isEqualToIgnoringGivenFields(updateUserCommand, "password");
+    }
+
+    @After
+    public void cleanUp() {
+        greenMail.stop();
+    }
+
+    @AfterClass
+    public static void removeRabbit() {
+        broker.shutdown();
+    }
+
+
+    private static void embeddedQMQPBroker() throws Exception {
+        broker = new Broker();
+        BrokerOptions brokerOptions = new BrokerOptions();
+        brokerOptions.setConfigProperty("qpid.amqp_port", "15673");
+        brokerOptions.setConfigProperty("qpid.broker.defaultPreferenceStoreAttributes", "{\"type\": \"Noop\"}");
+        brokerOptions.setConfigurationStoreType("Memory");
+        broker.startup(brokerOptions);
     }
 }

@@ -28,7 +28,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>();
-        //return AuthorityUtils.createAuthorityList(Scope.read.toString(), Scope.write.toString());
     }
 
     @Override

@@ -56,17 +56,4 @@ public class UserController {
     public void updateUser(@RequestBody @Valid UserDto userDto) {
         customUserDetailsService.sendUpdateUserCommand(userDto);
     }
-
-    @PostMapping("/avatars/{username}")
-    public void updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable String username) {
-
-        this.userRepository.findByUsername(username).ifPresent(user -> {
-            try {
-                user.setAvatar(file.getBytes());
-            } catch (IOException e) {
-                log.info(e);
-            }
-            userRepository.save(user);
-        });
-    }
 }

@@ -1,6 +1,5 @@
 package sa.common.web.service;
 
-import lombok.EqualsAndHashCode;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +14,8 @@ import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -55,7 +56,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).get();
     }
 
