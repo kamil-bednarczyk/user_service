@@ -46,15 +46,16 @@ public class AccountActivationLinkAggregate {
 
     @CommandHandler
     public void handle(ActivateAccountCommand cmd) {
-        if (cmd.getWhen().isAfter(expirationDate)) {
-            apply(new AccountActivationExpiredEvent(this.linkId));
-        } else {
+        if (cmd.getWhen().isBefore(expirationDate)) {
             apply(new AccountActivatedEvent(cmd.getLinkId(), this.userId));
+        } else {
+            apply(new AccountActivationExpiredEvent(this.linkId));
         }
     }
 
     @EventSourcingHandler
     public void on(AccountActivationLinkCreatedEvent event) {
+        this.status = ActivationStatus.NOT_ACTIVATED;
         this.linkId = event.getLinkId();
         this.userId = event.getUserId();
         this.expirationDate = event.getExpirationDate();
@@ -64,5 +65,11 @@ public class AccountActivationLinkAggregate {
     public void on(AccountActivatedEvent event) {
         this.linkId = event.getLinkId();
         this.status = ActivationStatus.ACTIVATED;
+    }
+
+    @EventHandler
+    public void on(AccountActivationExpiredEvent event) {
+        this.linkId = event.getLinkId();
+        this.status = ActivationStatus.EXPIRED;
     }
 }

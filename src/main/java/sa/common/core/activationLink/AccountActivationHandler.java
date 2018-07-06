@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import sa.common.core.activationLink.event.AccountActivatedEvent;
 import sa.common.core.activationLink.event.AccountActivationEmailSentEvent;
+import sa.common.core.activationLink.event.AccountActivationExpiredEvent;
 import sa.common.core.activationLink.event.AccountActivationLinkCreatedEvent;
 import sa.common.email.AccountActivationLink;
 import sa.common.email.ActivationLinkRepository;
@@ -51,6 +52,15 @@ public class AccountActivationHandler {
                 userRepository.save(user);
             });
             link.setStatus(ActivationStatus.ACTIVATED);
+            activationLinkRepository.save(link);
+        });
+    }
+
+    @EventHandler
+    public void on(AccountActivationExpiredEvent event) {
+        activationLinkRepository.findById(event.getLinkId()).ifPresent(link ->
+        {
+            link.setStatus(ActivationStatus.EXPIRED);
             activationLinkRepository.save(link);
         });
     }

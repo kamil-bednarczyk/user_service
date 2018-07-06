@@ -1,18 +1,11 @@
 package sa.common.integration;
 
 
-import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.ServerSetup;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.qpid.server.Broker;
-import org.apache.qpid.server.BrokerOptions;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.junit.*;
-import org.junit.runner.RunWith;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import sa.common.core.user.CreateUserCommand;
 import sa.common.email.ActivationLinkRepository;
 import sa.common.model.dto.CreateUserDto;
@@ -24,11 +17,7 @@ import sa.common.service.CustomUserDetailsService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Slf4j
-@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
-public class IntegrationTests {
+public class UserIntegrationTests extends BaseIntegrationTest {
 
     @Autowired
     private CommandGateway commandGateway;
@@ -40,15 +29,6 @@ public class IntegrationTests {
 
     private CreateUserCommand createUserCommand;
     private User expectedUser;
-
-    private static GreenMail greenMail;
-    private static Broker broker;
-
-    @BeforeClass
-    public static void setupRabbit() throws Exception {
-        embeddedQMQPBroker();
-        startMailServerMock();
-    }
 
     @Before
     public void setUp() {
@@ -135,27 +115,5 @@ public class IntegrationTests {
     @After
     public void cleanUp() {
         userRepository.deleteAll();
-    }
-
-    @AfterClass
-    public static void removeRabbit() {
-        broker.shutdown();
-        greenMail.stop();
-    }
-
-    private static void embeddedQMQPBroker() throws Exception {
-        broker = new Broker();
-        BrokerOptions brokerOptions = new BrokerOptions();
-        brokerOptions.setConfigProperty("qpid.amqp_port", "15673");
-        brokerOptions.setConfigProperty("qpid.broker.defaultPreferenceStoreAttributes", "{\"type\": \"Noop\"}");
-        brokerOptions.setConfigurationStoreType("Memory");
-        broker.startup(brokerOptions);
-    }
-
-    private static void startMailServerMock() {
-        ServerSetup setup = new ServerSetup(50025, "localhost", "smtp");
-        greenMail = new GreenMail(setup);
-        greenMail.setUser("username", "secret");
-        greenMail.start();
     }
 }

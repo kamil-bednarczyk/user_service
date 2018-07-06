@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,7 +41,7 @@ public class AvatarControllerTest {
                 .build();
     }
 
-   // @Test couldnt make it works
+    //@Test //couldn't make it works
     public void testUpdatedUserAvatar() throws Exception {
 
         user = User.builder()
@@ -54,6 +55,8 @@ public class AvatarControllerTest {
                 .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
+
         MultipartFile file = new MockMultipartFile("test-image", "test-image", MediaType.TEXT_PLAIN_VALUE, getTestImageAsByteArray());
 
         webTestClient.post().uri("/" + user.getUsername())
