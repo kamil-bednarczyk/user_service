@@ -1,10 +1,12 @@
 package sa.common.core.activationLink.event;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class AccountActivationLinkCreatedEvent {
 
     private final String linkId;

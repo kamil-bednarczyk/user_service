@@ -39,14 +39,14 @@ public class AccountActivationLinkAggregateTest {
     public void testAccountActivationEmailSent() {
         fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId", expirationDate))
                 .when(new SendAccountActivationEmailCommand(linkId, "userId", "email@email.com"))
-                .expectEvents(new AccountActivationEmailSentEvent(linkId, "userId", "email@email.com"));
+                .expectEvents(new AccountActivationEmailSentEvent(linkId, "email@email.com"));
     }
 
     @Test
     public void testAccountActivated() {
         fixture.given(new AccountActivationLinkCreatedEvent(linkId, "userId", expirationDate))
                 .when(new ActivateAccountCommand(linkId, LocalDate.now()))
-                .expectEvents(new AccountActivatedEvent(linkId, "userId"));
+                .expectEvents(new AccountActivatedEvent(linkId));
     }
 
     @Test

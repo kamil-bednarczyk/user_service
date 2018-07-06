@@ -60,7 +60,7 @@ public class AccountActivationManagementSagaTest {
 
         fixture.givenAggregate(userCreatedEvent.getId()).published(userCreatedEvent)
                 .andThenAggregate(linkId).published(new AccountActivationLinkCreatedEvent(linkId, userCreatedEvent.getId(), LocalDate.now()))
-                .whenAggregate(linkId).publishes(new AccountActivatedEvent(linkId, userCreatedEvent.getId()))
+                .whenAggregate(linkId).publishes(new AccountActivatedEvent(linkId))
                 .expectActiveSagas(1)
                 .expectNoDispatchedCommands();
     }

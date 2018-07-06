@@ -1,8 +1,10 @@
 package sa.common.core.activationLink.event;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class AccountActivationExpiredEvent {
 
     private final String linkId;

@@ -41,15 +41,15 @@ public class AccountActivationLinkAggregate {
 
     @CommandHandler
     public void handle(SendAccountActivationEmailCommand cmd) {
-        apply(new AccountActivationEmailSentEvent(cmd.getLinkId(), cmd.getUserId(), cmd.getEmail()));
+        apply(new AccountActivationEmailSentEvent(cmd.getLinkId(), cmd.getEmail()));
     }
 
     @CommandHandler
     public void handle(ActivateAccountCommand cmd) {
         if (cmd.getWhen().isBefore(expirationDate)) {
-            apply(new AccountActivatedEvent(cmd.getLinkId(), this.userId));
+            apply(new AccountActivatedEvent(cmd.getLinkId()));
         } else {
-            apply(new AccountActivationExpiredEvent(this.linkId));
+            apply(new AccountActivationExpiredEvent(cmd.getLinkId()));
         }
     }
 

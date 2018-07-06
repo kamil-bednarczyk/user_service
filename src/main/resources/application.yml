@@ -42,8 +42,8 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
+        security: INFO
         data:
           mongodb:
             core:
-              MongoTemplate: DEBUG
+              MongoTemplate: INFO
