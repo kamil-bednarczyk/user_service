@@ -18,6 +18,6 @@ public class UserDto {
     private String email;
     @NotEmpty
     private String role;
-    private boolean enable;
+    private boolean enabled;
     private byte[] avatar;
 }

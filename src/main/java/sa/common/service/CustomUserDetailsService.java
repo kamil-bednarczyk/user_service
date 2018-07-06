@@ -1,7 +1,6 @@
-package sa.common.web.service;
+package sa.common.service;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,8 +13,6 @@ import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -50,14 +47,17 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
                 .role(Role.valueOf(userDto.getRole()))
-                .isEnabled(userDto.isEnable())
+                .isEnabled(userDto.isEnabled())
                 .avatar(userDto.getAvatar())
                 .build());
     }
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).get();
+        if (userRepository.existsByUsername(username)) {
+            return userRepository.findByUsername(username).get();
+        }
+        throw new UsernameNotFoundException(username);
     }
 
     public static UserDto convertToDto(User user) {

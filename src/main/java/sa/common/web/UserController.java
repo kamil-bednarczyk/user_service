@@ -3,14 +3,12 @@ package sa.common.web;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
 import sa.common.repository.UserRepository;
-import sa.common.web.service.CustomUserDetailsService;
+import sa.common.service.CustomUserDetailsService;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

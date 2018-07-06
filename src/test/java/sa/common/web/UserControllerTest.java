@@ -10,7 +10,7 @@ import sa.common.model.dto.UserDto;
 import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
-import sa.common.web.service.CustomUserDetailsService;
+import sa.common.service.CustomUserDetailsService;
 
 import java.util.Optional;
 
@@ -61,7 +61,7 @@ public class UserControllerTest {
                 .username(createUserDto.getUsername())
                 .email(createdUser.getEmail())
                 .role(createdUser.getRole().toString())
-                .enable(createdUser.isEnabled())
+                .enabled(createdUser.isEnabled())
                 .avatar(createdUser.getAvatar())
                 .build();
     }
@@ -92,7 +92,7 @@ public class UserControllerTest {
                 .jsonPath("$.username").isEqualTo("username")
                 .jsonPath("$.email").isEqualTo("username@email.com")
                 .jsonPath("$.role").isEqualTo("USER")
-                .jsonPath("$.enable").isEqualTo("false");
+                .jsonPath("$.enabled").isEqualTo("false");
     }
 
     @Test
@@ -103,7 +103,7 @@ public class UserControllerTest {
                 .username("updated-username")
                 .email("updated@email.com")
                 .role(createdUser.getRole().toString())
-                .enable(createdUser.isEnabled())
+                .enabled(createdUser.isEnabled())
                 .build();
 
         this.webTestClient.put()
