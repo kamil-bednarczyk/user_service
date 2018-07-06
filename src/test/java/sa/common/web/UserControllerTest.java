@@ -12,6 +12,8 @@ import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 import sa.common.service.CustomUserDetailsService;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -93,6 +95,37 @@ public class UserControllerTest {
                 .jsonPath("$.email").isEqualTo("username@email.com")
                 .jsonPath("$.role").isEqualTo("USER")
                 .jsonPath("$.enabled").isEqualTo("false");
+    }
+
+    @Test
+    public void testGetUserByUsername() {
+        when(userRepository.findByUsername(createdUser.getUsername())).thenReturn(Optional.of(createdUser));
+
+        this.webTestClient.get().uri("/username/" + createdUser.getUsername())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(createdUser.getId())
+                .jsonPath("$.username").isEqualTo("username")
+                .jsonPath("$.email").isEqualTo("username@email.com")
+                .jsonPath("$.role").isEqualTo("USER")
+                .jsonPath("$.enabled").isEqualTo("false");
+    }
+
+    @Test
+    public void getAllUsers(){
+        when(userRepository.findAll()).thenReturn(Collections.singletonList(createdUser));
+
+        this.webTestClient.get()
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBodyList(UserDto.class)
+                .hasSize(1)
+                .isEqualTo(Collections.singletonList(userDto));
     }
 
     @Test

@@ -11,3 +11,6 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Jul 06 10:24:41 CEST 2018:
+Shutting down instance a816c00e-0164-6eb1-2137-000009ab4218 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 

@@ -26,4 +26,4 @@
 
 #### derby ####
 /work
-derby.log
+*.log
