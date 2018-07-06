@@ -13,6 +13,7 @@ import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -54,10 +55,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (userRepository.existsByUsername(username)) {
-            return userRepository.findByUsername(username).get();
+        Optional<User> user = userRepository.findByUsername(username);
+        if (!user.isPresent()) {
+            throw new UsernameNotFoundException(username);
         }
-        throw new UsernameNotFoundException(username);
+        return user.get();
+
     }
 
     public static UserDto convertToDto(User user) {
