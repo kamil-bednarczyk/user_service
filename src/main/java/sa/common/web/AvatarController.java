@@ -1,9 +1,9 @@
 package sa.common.web;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sa.common.model.AvatarDto;
 import sa.common.model.entity.User;
 import sa.common.repository.UserRepository;
 
@@ -15,8 +15,12 @@ import java.util.Optional;
 @RequestMapping("/avatars")
 public class AvatarController {
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    public AvatarController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     @PostMapping("/{username}")
@@ -33,7 +37,9 @@ public class AvatarController {
     }
 
     @GetMapping("/{username}")
-    public Optional<byte[]> getAvatarForUser(@PathVariable("username") String username){
-        return this.userRepository.findByUsername(username).map(User::getAvatar);
+    public Optional<AvatarDto> getAvatarForUser(@PathVariable("username") String username) {
+        return this.userRepository.findByUsername(username)
+                .map(User::getAvatar)
+                .map(AvatarDto::new);
     }
 }
