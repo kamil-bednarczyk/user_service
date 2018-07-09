@@ -130,6 +130,7 @@ public class UserIntegrationTests extends BaseIntegrationTest {
 
     @After
     public void cleanUp() {
+        activationLinkRepository.deleteAll();
         userRepository.deleteAll();
     }
 }

@@ -2,9 +2,12 @@ package sa.common.integration;
 
 import lombok.extern.log4j.Log4j2;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.eventsourcing.eventstore.EventStore;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import sa.common.core.activationLink.command.ActivateAccountCommand;
 import sa.common.core.activationLink.command.CreateAccountActivationLinkCommand;
 import sa.common.core.user.CreateUserCommand;
@@ -21,6 +24,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @Log4j2
+@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
 public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
 
     @Autowired
@@ -30,12 +34,11 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
     @Autowired
     private ActivationLinkRepository activationLinkRepository;
 
-    private CreateUserCommand createUserCommand;
+    @Test
+    public void sendAccountActivationLinkCommand_ExpectAccountActivated() {
 
-    @Before
-    public void setUp() {
 
-        createUserCommand = CreateUserCommand.builder()
+        CreateUserCommand createUserCommand = CreateUserCommand.builder()
                 .id("1234")
                 .username("username")
                 .password("password")
@@ -46,10 +49,6 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
                 .build();
 
         commandGateway.send(createUserCommand);
-    }
-
-    @Test
-    public void sendAccountActivationLinkCommand_ExpectAccountActivated() {
 
         String linkId = UUID.randomUUID().toString();
 
@@ -70,6 +69,19 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
 
     @Test
     public void sendAccountActivationLinkCommand_ExpectAccountActivationExpired() {
+
+
+        CreateUserCommand createUserCommand = CreateUserCommand.builder()
+                .id("4356")
+                .username("username")
+                .password("password")
+                .email("test@localhost.com")
+                .isEnabled(false)
+                .avatar(new byte[100])
+                .role(Role.USER)
+                .build();
+
+        commandGateway.send(createUserCommand);
 
         String linkId = UUID.randomUUID().toString();
 
