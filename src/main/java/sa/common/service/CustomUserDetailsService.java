@@ -60,7 +60,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return user.get();
-
     }
 
     public static UserDto convertToDto(User user) {

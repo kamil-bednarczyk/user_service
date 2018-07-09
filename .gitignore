@@ -1,6 +1,9 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+/work
+*.log
+
 ### STS ###
 .apt_generated
 .classpath
@@ -23,7 +26,3 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-
-### derby ###
-/work
-*.log

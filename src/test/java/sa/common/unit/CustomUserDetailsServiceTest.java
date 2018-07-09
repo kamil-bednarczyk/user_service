@@ -13,9 +13,9 @@ import static org.mockito.Mockito.when;
 
 public class CustomUserDetailsServiceTest {
 
-    UserRepository userRepository;
-    CommandGateway commandGateway;
-    CustomUserDetailsService customUserDetailsService;
+    private UserRepository userRepository;
+    private CommandGateway commandGateway;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Before
     public void setup() {

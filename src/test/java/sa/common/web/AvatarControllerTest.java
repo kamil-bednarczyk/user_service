@@ -1,11 +1,14 @@
 package sa.common.web;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
@@ -15,6 +18,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -29,11 +34,11 @@ public class AvatarControllerTest {
     private User user;
     private byte[] image;
 
+
     @Before
     public void setup() throws Exception {
         userRepository = mock(UserRepository.class);
         image = getTestImageAsByteArray();
-
 
         webTestClient = WebTestClient.bindToController(new AvatarController(userRepository))
                 .configureClient()
@@ -57,17 +62,19 @@ public class AvatarControllerTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(userRepository.save(any())).thenReturn(user);
 
-        MultipartFile file = new MockMultipartFile("test-image", "test-image", MediaType.TEXT_PLAIN_VALUE, getTestImageAsByteArray());
+        MockMultipartFile file = new MockMultipartFile("test-image", getTestImageAsByteArray());
 
-        webTestClient.post().uri("/" + user.getUsername())
-                .accept(MediaType.MULTIPART_FORM_DATA)
+        webTestClient.post()
+                .uri("/" + user.getUsername())
+                .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData("file", file))
+                .acceptCharset(Charset.defaultCharset())
                 .exchange()
                 .expectStatus().is2xxSuccessful();
     }
 
     @Test
-    public void getAvatarForUser() {
+    public void getAvatarForUser(){
 
         user = User.builder()
                 .id("12345")

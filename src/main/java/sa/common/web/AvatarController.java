@@ -15,13 +15,11 @@ import java.util.Optional;
 @RequestMapping("/avatars")
 public class AvatarController {
 
-
     private final UserRepository userRepository;
 
     public AvatarController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     @PostMapping("/{username}")
     public void updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("username") String username) {

@@ -1,9 +1,12 @@
 package sa.common.core.activationLink.command;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class SendAccountActivationEmailCommand {
     @TargetAggregateIdentifier
     private final String linkId;
