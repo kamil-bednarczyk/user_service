@@ -21,7 +21,7 @@ public class AvatarController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/{username}")
+    @PostMapping(value = "/{username}")
     public void updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("username") String username) {
 
         this.userRepository.findByUsername(username).ifPresent(user -> {

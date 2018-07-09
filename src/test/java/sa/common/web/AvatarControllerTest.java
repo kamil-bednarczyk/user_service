@@ -1,14 +1,11 @@
 package sa.common.web;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
@@ -18,8 +15,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -42,11 +37,11 @@ public class AvatarControllerTest {
 
         webTestClient = WebTestClient.bindToController(new AvatarController(userRepository))
                 .configureClient()
-                .baseUrl("/avatars")
+                .baseUrl("/avatars/")
                 .build();
     }
 
-    //@Test //couldn't make it works
+   // @Test //couldn't make it works
     public void testUpdatedUserAvatar() throws Exception {
 
         user = User.builder()
@@ -56,25 +51,27 @@ public class AvatarControllerTest {
                 .email("email")
                 .role(Role.USER)
                 .enabled(false)
-                .avatar(new byte[0])
+                .avatar(new byte[10])
                 .build();
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(userRepository.save(any())).thenReturn(user);
 
-        MockMultipartFile file = new MockMultipartFile("test-image", getTestImageAsByteArray());
+        MultipartFile file = new MockMultipartFile(
+                "test-image",
+                "test-image.png",
+                "image/png",
+                getTestImageAsByteArray());
 
         webTestClient.post()
-                .uri("/" + user.getUsername())
-                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .uri(user.getUsername())
                 .body(BodyInserters.fromMultipartData("file", file))
-                .acceptCharset(Charset.defaultCharset())
                 .exchange()
                 .expectStatus().is2xxSuccessful();
     }
 
     @Test
-    public void getAvatarForUser(){
+    public void getAvatarForUser() {
 
         user = User.builder()
                 .id("12345")
@@ -88,7 +85,7 @@ public class AvatarControllerTest {
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        webTestClient.get().uri("/" + user.getUsername())
+        webTestClient.get().uri(user.getUsername())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().isOk()

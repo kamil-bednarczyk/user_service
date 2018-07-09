@@ -1,8 +1,11 @@
 package sa.common.model;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+
+@Getter
+@AllArgsConstructor
 public class AvatarDto {
-    private byte[] avatar;
+    private final byte[] avatar;
 }
