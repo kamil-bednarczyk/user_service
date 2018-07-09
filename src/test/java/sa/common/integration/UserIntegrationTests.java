@@ -15,6 +15,8 @@ import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 import sa.common.service.CustomUserDetailsService;
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserIntegrationTests extends BaseIntegrationTest {
@@ -68,10 +70,17 @@ public class UserIntegrationTests extends BaseIntegrationTest {
 
         customUserDetailsService.sendCreateUserCommand(createUserDto);
 
-        assertThat(userRepository.findByUsername(createUserCommand.getUsername()).get())
+        User actualUser = userRepository.findByUsername(createUserCommand.getUsername()).get();
+        assertThat(actualUser)
                 .isNotNull()
                 .isEqualToIgnoringGivenFields(expectedUser, "password", "id");
         assertThat(activationLinkRepository.findAll()).hasSize(1);
+
+        assertThat(actualUser.isEnabled()).isEqualTo(false);
+        assertThat(actualUser.isAccountNonExpired()).isEqualTo(true);
+        assertThat(actualUser.isAccountNonLocked()).isEqualTo(true);
+        assertThat(actualUser.isCredentialsNonExpired()).isEqualTo(true);
+        assertThat(actualUser.getAuthorities()).isEqualTo(new ArrayList<>());
     }
 
     @Test
@@ -93,7 +102,7 @@ public class UserIntegrationTests extends BaseIntegrationTest {
                 .username("updated")
                 .email("updatedemail@localhost.com")
                 .role(Role.ADMIN.toString())
-                .enabled(false)
+                .enabled(true)
                 .avatar(new byte[20])
                 .build();
 
@@ -102,14 +111,21 @@ public class UserIntegrationTests extends BaseIntegrationTest {
                 .username(updateUserDto.getUsername())
                 .password(createUserDto.getPassword()) //ignored due to password encryption
                 .email(updateUserDto.getEmail())
+                .enabled(true)
                 .role(Role.valueOf(updateUserDto.getRole()))
                 .avatar(updateUserDto.getAvatar())
                 .build();
 
         customUserDetailsService.sendUpdateUserCommand(updateUserDto);
 
-        assertThat(userRepository.findById(updateUserDto.getId()).get()).isNotNull()
-                .isEqualToIgnoringGivenFields(expectedUpdatedUser, "password");
+        User actualUpdatedUser = userRepository.findById(updateUserDto.getId()).get();
+
+        assertThat(actualUpdatedUser).isNotNull().isEqualToIgnoringGivenFields(expectedUpdatedUser, "password");
+        assertThat(actualUpdatedUser.isEnabled()).isEqualTo(true);
+        assertThat(actualUpdatedUser.isAccountNonExpired()).isEqualTo(true);
+        assertThat(actualUpdatedUser.isAccountNonLocked()).isEqualTo(true);
+        assertThat(actualUpdatedUser.isCredentialsNonExpired()).isEqualTo(true);
+        assertThat(actualUpdatedUser.getAuthorities()).isEqualTo(new ArrayList<>());
     }
 
     @After

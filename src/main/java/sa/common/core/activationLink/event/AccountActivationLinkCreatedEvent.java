@@ -12,5 +12,4 @@ public class AccountActivationLinkCreatedEvent {
     private final String linkId;
     private final String userId;
     private final LocalDate expirationDate;
-
 }
