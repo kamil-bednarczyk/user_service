@@ -38,6 +38,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         String idForEncode = "bcrypt";
         Map encoders = new HashMap<>();
         encoders.put("noop", NoOpPasswordEncoder.getInstance());
+        encoders.put(null, NoOpPasswordEncoder.getInstance());
         encoders.put(idForEncode, new BCryptPasswordEncoder(8));
         return new DelegatingPasswordEncoder(idForEncode, encoders);
     }

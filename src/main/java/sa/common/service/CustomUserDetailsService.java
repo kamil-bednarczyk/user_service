@@ -69,6 +69,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .email(user.getEmail())
                 .role(user.getRole().toString())
                 .avatar(user.getAvatar())
+                .enabled(user.isEnabled())
                 .build();
     }
 }

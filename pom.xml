@@ -32,7 +32,11 @@
             <version>0.28</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/io.reactivex/rxjava -->
         <dependency>
             <groupId>io.reactivex</groupId>
@@ -94,6 +98,12 @@
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
             <version>3.2.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId></artifactId>
+            <version></version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.axonframework/axon-spring-boot-autoconfigure -->
         <dependency>

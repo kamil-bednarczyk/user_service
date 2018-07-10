@@ -37,7 +37,6 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
     @Test
     public void sendAccountActivationLinkCommand_ExpectAccountActivated() {
 
-
         CreateUserCommand createUserCommand = CreateUserCommand.builder()
                 .id("1234")
                 .username("username")
@@ -69,7 +68,6 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
 
     @Test
     public void sendAccountActivationLinkCommand_ExpectAccountActivationExpired() {
-
 
         CreateUserCommand createUserCommand = CreateUserCommand.builder()
                 .id("4356")
