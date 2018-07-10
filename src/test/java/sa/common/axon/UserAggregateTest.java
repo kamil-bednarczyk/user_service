@@ -4,7 +4,7 @@ import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.Before;
 import org.junit.Test;
-import sa.common.core.user.*;
+import sa.common.axon.user.*;
 import sa.common.model.enums.Role;
 
 public class UserAggregateTest {
@@ -24,7 +24,7 @@ public class UserAggregateTest {
                         .username("username")
                         .password("password")
                         .email("rmail@email.com")
-                        .isEnabled(false)
+                        .enabled(false)
                         .role(Role.USER)
                         .build())
                 .expectEvents(UserCreatedEvent.builder()

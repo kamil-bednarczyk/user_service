@@ -4,8 +4,8 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sa.common.core.user.CreateUserCommand;
-import sa.common.core.user.UpdateUserCommand;
+import sa.common.axon.user.CreateUserCommand;
+import sa.common.axon.user.UpdateUserCommand;
 import sa.common.exception.UsernameAlreadyExists;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
@@ -38,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .email(createUserDto.getEmail())
                 .role(Role.valueOf(createUserDto.getRole()))
                 .avatar(createUserDto.getAvatar())
-                .isEnabled(false) // changed to true after acc activation via email link
+                .enabled(true) // changed to true after acc activation via email link
                 .build());
     }
 

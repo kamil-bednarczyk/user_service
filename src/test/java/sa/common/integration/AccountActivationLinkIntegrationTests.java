@@ -2,15 +2,12 @@ package sa.common.integration;
 
 import lombok.extern.log4j.Log4j2;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.eventsourcing.eventstore.EventStore;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import sa.common.core.activationLink.command.ActivateAccountCommand;
-import sa.common.core.activationLink.command.CreateAccountActivationLinkCommand;
-import sa.common.core.user.CreateUserCommand;
+import sa.common.axon.activationLink.command.ActivateAccountCommand;
+import sa.common.axon.activationLink.command.CreateAccountActivationLinkCommand;
+import sa.common.axon.user.CreateUserCommand;
 import sa.common.email.AccountActivationLink;
 import sa.common.email.ActivationLinkRepository;
 import sa.common.email.ActivationStatus;
@@ -42,7 +39,7 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
                 .username("username")
                 .password("password")
                 .email("test@localhost.com")
-                .isEnabled(false)
+                .enabled(false)
                 .avatar(new byte[100])
                 .role(Role.USER)
                 .build();
@@ -74,7 +71,7 @@ public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
                 .username("username")
                 .password("password")
                 .email("test@localhost.com")
-                .isEnabled(false)
+                .enabled(false)
                 .avatar(new byte[100])
                 .role(Role.USER)
                 .build();

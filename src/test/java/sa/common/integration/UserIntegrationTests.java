@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import sa.common.core.user.CreateUserCommand;
+import sa.common.axon.user.CreateUserCommand;
 import sa.common.email.ActivationLinkRepository;
 import sa.common.model.dto.CreateUserDto;
 import sa.common.model.dto.UserDto;
@@ -41,7 +41,7 @@ public class UserIntegrationTests extends BaseIntegrationTest {
                 .username("username")
                 .password("password")
                 .email("test@localhost.com")
-                .isEnabled(false)
+                .enabled(true)
                 .avatar(new byte[100])
                 .role(Role.USER)
                 .build();
@@ -76,7 +76,7 @@ public class UserIntegrationTests extends BaseIntegrationTest {
                 .isEqualToIgnoringGivenFields(expectedUser, "password", "id");
         assertThat(activationLinkRepository.findAll()).hasSize(1);
 
-        assertThat(actualUser.isEnabled()).isEqualTo(false);
+        assertThat(actualUser.isEnabled()).isEqualTo(true);  //TODO should be false via email link registration but is true for development process
         assertThat(actualUser.isAccountNonExpired()).isEqualTo(true);
         assertThat(actualUser.isAccountNonLocked()).isEqualTo(true);
         assertThat(actualUser.isCredentialsNonExpired()).isEqualTo(true);

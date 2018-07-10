@@ -92,7 +92,6 @@ public class OAuth2SecuredResourceAccessTest extends BaseIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.role").value(user.getRole().toString()));
     }
 
-
     @Test
     public void givenValidRole_whenPostAvatarData_thenReturnStatusOk() throws Exception {
         String accessToken = obtainAccessToken(user.getUsername(), user.getPassword());
@@ -129,7 +128,6 @@ public class OAuth2SecuredResourceAccessTest extends BaseIntegrationTest {
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString).get("access_token").toString();
     }
-
 
     private static byte[] getTestImageAsByteArray() throws Exception {
         BufferedImage bImage = ImageIO.read(new File("src/test/resources/test-image.png"));
