@@ -6,9 +6,11 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,6 +21,10 @@ import sa.common.model.entity.User;
 import sa.common.model.enums.Role;
 import sa.common.repository.UserRepository;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.UUID;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -86,6 +92,23 @@ public class OAuth2SecuredResourceAccessTest extends BaseIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.role").value(user.getRole().toString()));
     }
 
+
+    @Test
+    public void givenValidRole_whenPostAvatarData_thenReturnStatusOk() throws Exception {
+        String accessToken = obtainAccessToken(user.getUsername(), user.getPassword());
+
+        MockMultipartFile file = new MockMultipartFile(
+                "test-image",
+                "test-image.png",
+                "image/png",
+                getTestImageAsByteArray());
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/avatars/" + user.getId())
+                .file(file)
+                .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isOk());
+    }
+
     private String obtainAccessToken(String username, String password) throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -105,5 +128,13 @@ public class OAuth2SecuredResourceAccessTest extends BaseIntegrationTest {
         String resultString = result.andReturn().getResponse().getContentAsString();
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString).get("access_token").toString();
+    }
+
+
+    private static byte[] getTestImageAsByteArray() throws Exception {
+        BufferedImage bImage = ImageIO.read(new File("src/test/resources/test-image.png"));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos);
+        return bos.toByteArray();
     }
 }

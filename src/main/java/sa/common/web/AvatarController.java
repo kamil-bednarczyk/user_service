@@ -8,6 +8,7 @@ import sa.common.model.entity.User;
 import sa.common.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -22,11 +23,11 @@ public class AvatarController {
     }
 
     @PostMapping(value = "/{username}")
-    public void updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("username") String username) {
+    public void updateAvatar(@RequestParam("file") List<MultipartFile> files, @PathVariable("username") String username) {
 
         this.userRepository.findByUsername(username).ifPresent(user -> {
             try {
-                user.setAvatar(file.getBytes());
+                user.setAvatar(files.get(0).getBytes());
             } catch (IOException e) {
                 log.info(e);
             }
