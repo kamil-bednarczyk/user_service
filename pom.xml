@@ -99,12 +99,6 @@
             <artifactId>axon-spring-boot-starter</artifactId>
             <version>3.2.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId></artifactId>
-            <version></version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.axonframework/axon-spring-boot-autoconfigure -->
         <dependency>
             <groupId>org.axonframework</groupId>
