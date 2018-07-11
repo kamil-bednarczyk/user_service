@@ -43,6 +43,7 @@ logging:
   level:
     org:
       springframework:
+        web: INFO
         security: INFO
         data:
           mongodb:

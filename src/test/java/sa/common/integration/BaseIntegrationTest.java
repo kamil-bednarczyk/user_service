@@ -2,6 +2,7 @@ package sa.common.integration;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.qpid.server.Broker;
 import org.apache.qpid.server.BrokerOptions;
 import org.junit.AfterClass;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public abstract class BaseIntegrationTest {
 
     protected static GreenMail greenMail;

@@ -20,7 +20,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-@Log4j2
 @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
 public class AccountActivationLinkIntegrationTests extends BaseIntegrationTest {
 

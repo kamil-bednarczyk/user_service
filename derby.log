@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Jul 10 12:24:58 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0164-83b9-047e-00000ce64548 
+Wed Jul 11 11:35:45 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0164-88b2-51e4-00000d1973c0 
 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/C:/Users/klby/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation
@@ -12,11 +12,11 @@ os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Jul 10 12:25:19 CEST 2018:
-Shutting down instance a816c00e-0164-83b9-047e-00000ce64548 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Wed Jul 11 11:36:06 CEST 2018:
+Shutting down instance a816c00e-0164-88b2-51e4-00000d1973c0 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 ----------------------------------------------------------------
-Tue Jul 10 12:25:19 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a13ec033-0164-83b9-047e-00000ce64548 
+Wed Jul 11 11:36:06 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a13ec033-0164-88b2-51e4-00000d1973c0 
 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/C:/Users/klby/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation
@@ -28,11 +28,11 @@ os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Jul 10 12:25:20 CEST 2018:
-Shutting down instance a13ec033-0164-83b9-047e-00000ce64548 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Wed Jul 11 11:36:22 CEST 2018:
+Shutting down instance a13ec033-0164-88b2-51e4-00000d1973c0 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 ----------------------------------------------------------------
-Tue Jul 10 12:25:21 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance bbbd0058-0164-83b9-047e-00000ce64548 
+Wed Jul 11 11:36:22 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance bbbd0058-0164-88b2-51e4-00000d1973c0 
 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/C:/Users/klby/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation
@@ -44,11 +44,11 @@ os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Jul 10 12:25:30 CEST 2018:
-Shutting down instance bbbd0058-0164-83b9-047e-00000ce64548 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Wed Jul 11 11:36:38 CEST 2018:
+Shutting down instance bbbd0058-0164-88b2-51e4-00000d1973c0 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 ----------------------------------------------------------------
-Tue Jul 10 12:25:32 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance c791807d-0164-83b9-047e-00000ce64548 
+Wed Jul 11 11:36:41 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance c791807d-0164-88b2-51e4-00000d1973c0 
 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/C:/Users/klby/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation
@@ -60,5 +60,5 @@ os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Jul 10 12:25:33 CEST 2018:
-Shutting down instance c791807d-0164-83b9-047e-00000ce64548 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Wed Jul 11 11:36:42 CEST 2018:
+Shutting down instance c791807d-0164-88b2-51e4-00000d1973c0 on database directory C:\git\squad_agenda\user_service\work\derbystore\default\default with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 

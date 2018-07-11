@@ -24,3 +24,11 @@ security:
     client:
       client-id: test
       client-secret: test
+
+log4j:
+  rootCategory: INFO
+  category:
+    org:
+      springframework:
+        beans:
+          factory: INFO
