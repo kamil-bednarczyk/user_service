@@ -1,0 +1,25 @@
+version: "2"
+services:
+  user_service:
+    image: kamilbednarczyk/user_service:latest
+    container_name: user_service
+    ports:
+      - 8092:8092
+    depends_on:
+      - mongodb
+      - rabbit
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: agenda
+    container_name: mongodb
+    ports:
+      - 27017:27017
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3.7.5
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+

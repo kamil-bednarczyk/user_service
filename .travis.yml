@@ -19,3 +19,9 @@ addons:
 
 script:
    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
+
+after_cuccess:
+  - mvn install -DSkipTests dockerfile:build
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push kamilbednarczyk/user_service
