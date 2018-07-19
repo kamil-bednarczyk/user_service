@@ -3,11 +3,11 @@ spring:
     name: user-service
   data:
     mongodb:
-      host: mongodb
+      host: localhost
       port: 27017
       database: agenda
-  rabbitmq:
-    host: rabbit
+ # rabbitmq:
+ #   host: rabbit
 
   mvc:
     dispatch-options-request: true
